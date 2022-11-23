@@ -39,11 +39,18 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-golang-
 
+    - name: Install Gox
+      run: go install github.com/mitchellh/gox@latest
+
     - name: Build multi-arch
-      uses: thatisuday/go-cross-build@v1.1.0
-      with:
-        platforms: linux/amd64,darwin/amd64,windows/amd64
-        name: netwait
+      run: >
+        gox -osarch='linux/amd64 darwin/amd64 windows/amd64'
+
+#    - name: Build multi-arch
+#      uses: thatisuday/go-cross-build@v1.1.0
+#      with:
+#        platforms: linux/amd64,darwin/amd64,windows/amd64
+#        name: netwait
 #        ldflags: "-X 'github.com/merusso/netwait/cmd.version=${{ steps.meta.outputs.version }}'"
 
     - name: Upload Artifact
