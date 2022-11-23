@@ -1,0 +1,23 @@
+name: call-build-multiarch
+
+on:
+  push:
+    branches: [ "reuse-build-multiarch" ]
+
+jobs:
+
+  build-multiarch:
+    name: Build binaries
+    uses: ./.github/workflows/ci.yml
+
+  post-build:
+    needs: build-multiarch
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: netwait
+          path: build
+      - name: List artifacts
+        run: ls -la
