@@ -44,7 +44,7 @@ jobs:
       with:
         platforms: linux/amd64,darwin/amd64,windows/amd64
         name: netwait
-        ldflags: "-X 'github.com/merusso/netwait/cmd.version=${{ steps.meta.outputs.version }}'"
+#        ldflags: "-X 'github.com/merusso/netwait/cmd.version=${{ steps.meta.outputs.version }}'"
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
