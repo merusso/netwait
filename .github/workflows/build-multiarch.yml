@@ -1,9 +1,12 @@
 # This workflow will build a golang project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-go
 
-name: test-build-multiarch
+name: build-multiarch
 
 on:
+  push:
+    branches: [ "reuse-build-multiarch" ]
+  workflow_call:
   workflow_dispatch:
 
 jobs:
@@ -16,13 +19,6 @@ jobs:
     - name: Docker Metadata action
       id: meta
       uses: docker/metadata-action@v4.1.1
-      with:
-        images: merusso/netwait
-        tags: |
-          type=ref,event=branch
-          type=ref,event=pr
-          type=semver,pattern={{version}}
-          type=semver,pattern={{major}}.{{minor}}
 
     - name: Set up Go
       uses: actions/setup-go@v3
@@ -45,11 +41,10 @@ jobs:
       with:
         platforms: linux/amd64,darwin/amd64,windows/amd64
         name: netwait
-        # Flags to pass to the Go linker.
         ldflags: "-X 'github.com/merusso/netwait/cmd.version=${{ steps.meta.outputs.version }}'"
 
-#    - name: Upload Artifact
-#      uses: actions/upload-artifact@v3
-#      with:
-#        name: netwait
-#        path: build/
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: netwait
+        path: build/
