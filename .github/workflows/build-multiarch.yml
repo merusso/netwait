@@ -45,6 +45,7 @@ jobs:
     - name: Build multi-arch
       run: >
         gox -osarch='linux/amd64 darwin/amd64 windows/amd64'
+        -ldflags "-X 'github.com/merusso/netwait/cmd.version=${{ steps.meta.outputs.version }}'"
 
 #    - name: Build multi-arch
 #      uses: thatisuday/go-cross-build@v1.1.0
